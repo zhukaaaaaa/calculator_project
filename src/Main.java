@@ -8,7 +8,7 @@ public class Main {
         System.out.println("9 + 3 = " + calculate(9, 3, "+"));
         System.out.println("9 / 3 = " + calculate(9, 3, "/"));
         System.out.println("9 - 3 = " + calculate(9, 3, "-"));
-        System.out.println("9 * 3 = " + calculate(9, 9, "*"));
+        System.out.println("9 * 3 = " + calculate(9, 3, "*"));
         System.out.println("--- Конец тестов ---\n");
 
 
@@ -16,15 +16,19 @@ public class Main {
 
         while (true) {
             System.out.print("> ");
-            String input = scanner.nextLine();
+            String input = scanner.nextLine().trim();
 
             if (input.equals("exit")) {
                 break;
             }
 
             try {
-                String[] parts = input.trim().split("\\s+");
+                String[] parts = input.split("\\s+");
 
+                if (parts.length != 3) {
+                    System.out.println("Ошибка: неверный формат. Используйте: число оператор число");
+                    continue;
+                }
                 int a = Integer.parseInt(parts[0]);
                 String operator = parts[1];
                 int b = Integer.parseInt(parts[2]);
@@ -36,8 +40,11 @@ public class Main {
             } catch (ArithmeticException e) {
                 System.out.println("Ошибка: деление на ноль");
 
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Ошибка: неверный формат. Используйте: число оператор число");
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ошибка: неизвестный оператор. Доступны: + - * /");
             }
         }
     }
